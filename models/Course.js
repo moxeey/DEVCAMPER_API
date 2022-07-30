@@ -1,27 +1,27 @@
-const { model, Schema } = require("mongoose");
+const {model,Schema}=require("mongoose");
 
-const CourseSchema = Schema({
+const CourseSchema=Schema({
   title: {
     type: String,
     trim: true,
-    required: [true, "Please add course description"],
+    required: [true,"Please add course description"],
   },
   description: {
     type: String,
-    required: [true, "Please add course description"],
+    required: [true,"Please add course description"],
   },
   weeks: {
     type: String,
-    required: [true, "Please add course number of weeks"],
+    required: [true,"Please add course number of weeks"],
   },
   tuition: {
     type: Number,
-    required: [true, "Please add course tuition cost"],
+    required: [true,"Please add course tuition cost"],
   },
   minimumSkill: {
     type: String,
-    required: [true, "Please add a minimum skills required"],
-    enum: ["beginner", "intermediate", "advanced"],
+    required: [true,"Please add a minimum skills required"],
+    enum: ["beginner","intermediate","advanced"],
   },
   scholarshipAvailable: {
     type: Boolean,
@@ -36,40 +36,45 @@ const CourseSchema = Schema({
     ref: "Bootcamp",
     required: true,
   },
+  user: {
+    type: Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
-CourseSchema.statics.getAverageCost = async function (bootcampId) {
+CourseSchema.statics.getAverageCost=async function(bootcampId) {
   // Calculating avg cost...
 
-  const obj = await this.aggregate([
+  const obj=await this.aggregate([
     {
-      $match: { bootcamp: bootcampId },
+      $match: {bootcamp: bootcampId},
     },
     {
       $group: {
         _id: "$bootcamp",
-        averageCost: { $avg: "$tuition" },
+        averageCost: {$avg: "$tuition"},
       },
     },
   ]);
 
   try {
-    await model("Bootcamp").findByIdAndUpdate(bootcampId, {
+    await model("Bootcamp").findByIdAndUpdate(bootcampId,{
       averageCost: obj[0].averageCost,
     });
-  } catch (error) {
+  } catch(error) {
     console.log(error);
   }
 };
 
 // Call getAverage after save
-CourseSchema.post("save", function (doc) {
+CourseSchema.post("save",function(doc) {
   this.constructor.getAverageCost(doc.bootcamp);
 });
 
 // Call getAverage before remove
-CourseSchema.pre("remove", function (next) {
+CourseSchema.pre("remove",function(next) {
   this.constructor.getAverageCost(this.bootcamp);
   next();
 });
-module.exports = model("Course", CourseSchema);
+module.exports=model("Course",CourseSchema);
