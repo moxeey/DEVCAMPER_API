@@ -1,7 +1,7 @@
 const asyncHandler=require("../middleware/async");
+const ErrorResponse=require("../utils/errorResponse");
 const Bootcamp=require("../models/Bootcamp");
 const Course=require("../models/Course");
-const ErrorResponse=require("../utils/errorResponse");
 
 // @desc    Get courses
 // @route   GET /api/v1/courses

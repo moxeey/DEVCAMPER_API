@@ -73,7 +73,7 @@ const BootcampSchema=mongoose.Schema(
         "Data Science",
       ],
     },
-    averageRatings: {
+    averageRating: {
       type: Number,
       min: [1,"Rating must be atleast 1"],
       max: [10,"Rating must not ne more than 10"],
