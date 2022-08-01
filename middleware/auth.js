@@ -10,13 +10,13 @@ exports.protect=asyncHandler(async (req,res,next) => {
 
     // check auth header and cookie
     if(authHeader&&authHeader.startsWith('Bearer')) {
+        // get token from Bearer token
         token=authHeader.split(' ')[1]
     }
-    // else if(req.cookies.token) {
-    //     token=req.cookies.token
-    //     console.log(token)
-
-    // } 
+    else if(req.cookies.token) {
+        // get token from cookies
+        token=req.cookies.token
+    }
     else {
         return next(new ErrorResponse('authorization is malformed',400))
     }
