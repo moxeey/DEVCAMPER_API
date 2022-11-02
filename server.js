@@ -58,6 +58,7 @@ app.use(hpp())
 app.use(cors())
 // file uploading
 app.use(fileupload());
+
 // set statics folder
 app.use(express.static(path.join(__dirname,"public")));
 

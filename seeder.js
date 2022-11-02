@@ -48,7 +48,7 @@ const deleteData=async () => {
     await Review.deleteMany();
 
     console.log("Data destroyed");
-    process.exit();
+    if(process.argv[2]==="-r") process.exit();
   } catch(error) {
     console.log(error);
   }

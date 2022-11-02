@@ -128,6 +128,7 @@ exports.getBootcampsInRadius=asyncHandler(async (req,res,next) => {
 // @route   PUT /api/v1/bootcamps/:id/photo
 // @access  private
 exports.bootcampPhotoUpload=asyncHandler(async (req,res,next) => {
+
   const bootcamp=await Bootcamp.findById(req.params.id);
   if(!bootcamp)
     return next(
@@ -140,6 +141,7 @@ exports.bootcampPhotoUpload=asyncHandler(async (req,res,next) => {
   if(!req.files) return next(new ErrorResponse("Please upload files",400));
 
   const file=req.files.file;
+
 
   // Make sure the file is a photo
   if(!file.mimetype.startsWith("image")) {
