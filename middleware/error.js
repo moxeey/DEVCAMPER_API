@@ -22,6 +22,7 @@ const errorHandler=(err,req,res,next) => {
     const message=Object.values(err.errors).map((val) => val.message);
     error=new ErrorResponse(message,400);
   }
+  // Other server related error
   res.status(error.statusCode||500).send({
     success: false,
     error: error.message||"Server error",

@@ -18,6 +18,7 @@ exports.protect=asyncHandler(async (req,res,next) => {
         token=req.cookies.token
     }
     else {
+        // return 400, if the authorization header is not as expected.
         return next(new ErrorResponse('authorization is malformed',400))
     }
 
@@ -28,9 +29,11 @@ exports.protect=asyncHandler(async (req,res,next) => {
         // verify token
         const decoded=jwt.verify(token,process.env.JWT_SECRET)
         req.user=await User.findById(decoded.id)
+        // the token is confirm with our secret code but the user was deleted.
         if(!req.user) return next(new ErrorResponse('The token is valid but the user does not exist',401))
         next()
     } catch(error) {
+        // trying to access prohibited resources.
         return next(new ErrorResponse('not authorize to access this route',401))
     }
 
@@ -41,6 +44,7 @@ exports.protect=asyncHandler(async (req,res,next) => {
 exports.authorize=(...roles) => {
     return (req,res,next) => {
         if(!roles.includes(req.user.role)) {
+            // trying to access prohibited resources.
             return next(new ErrorResponse(`${req.user.role} is not authorized to access this resource`,403))
         }
         next()
