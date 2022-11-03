@@ -124,6 +124,7 @@ This project was built following a Node.js Masterclass with Express & MongoDB fr
 - Node.js
 
 ## Documentation's Screenshot
+![screencapture-file-C-Users-Muhammad-Dev-Node-Masterclass-DEVCAMPER-API-public-index-html-2022-11-03-17_18_49](https://user-images.githubusercontent.com/40662840/199776452-87635c1d-9255-4fc8-8574-665d4da54ea5.png)
 
 ## Developers
 
